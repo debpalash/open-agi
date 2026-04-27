@@ -1,13 +1,13 @@
 {
-  "best_val_bpb": 21.06796,
+  "best_val_bpb": 20.073406,
   "best_machine": "mac",
-  "best_commit": "d010348",
+  "best_commit": "822262d",
   "config": {
     "MODEL_DIM": 384,
     "N_HEADS": 6,
     "PRELUDE_DEPTH": 2,
     "CODA_DEPTH": 2,
-    "N_LOOPS": 4,
+    "N_LOOPS": 2,
     "FFN_MULT": 4,
     "USE_MOE": false,
     "N_EXPERTS": 4,
@@ -46,6 +46,14 @@
       "steps": 68,
       "description": "N_LOOPS 8->4 \u2014 68 steps vs 55, val_bpb 22.94->21.07",
       "commit": "d010348"
+    },
+    {
+      "machine": "mac",
+      "val_bpb": 20.073406,
+      "params_M": 47.6,
+      "steps": 73,
+      "description": "N_LOOPS 4->2 \u2014 73 steps, val_bpb 21.07->20.07",
+      "commit": "822262d"
     }
   ]
 }
