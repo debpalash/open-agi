@@ -1,0 +1,6 @@
+OpenMythos/
+autoresearch/
+autoresearch-mythos/
+*.txt
+.DS_Store
+__pycache__/
