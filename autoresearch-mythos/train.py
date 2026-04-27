@@ -35,7 +35,7 @@ N_LOOPS         = 8         # recurrent depth iterations
 FFN_MULT        = 4         # FFN hidden dim multiplier
 
 # MoE (set USE_MOE=False for dense FFN)
-USE_MOE         = True
+USE_MOE         = False
 N_EXPERTS       = 4         # total routed experts
 TOP_K           = 2         # active experts per token
 SHARED_EXPERTS  = 1         # always-on shared experts
@@ -45,7 +45,7 @@ USE_LTI         = True      # LTI stability injection
 LORA_RANK       = 16        # LoRA rank for loop adaptation (0=off)
 
 # Training
-BATCH_SIZE      = 8         # micro batch size
+BATCH_SIZE      = 16         # micro batch size
 TOTAL_BATCH     = 2**14     # ~16K tokens per optimizer step
 LR              = 3e-4      # peak learning rate
 WEIGHT_DECAY    = 0.1       # AdamW weight decay
