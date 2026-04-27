@@ -109,9 +109,24 @@ Full transcript: `[English] Ilya Sutskever...txt` in this directory.
 
 The insight: you don't need H100 clusters to discover if recurrent-depth is a better architecture. You need an idea and a way to test it quickly. That's what this project does — 100 architecture experiments overnight while you sleep.
 
-## Repository Links
+## Repository
 
-- **This project**: https://github.com/debpalash/autoresearch-mythos (private)
-- **OpenMythos**: https://github.com/kyegomez/OpenMythos (reference)
-- **Autoresearch**: https://github.com/karpathy/autoresearch (reference)
-- **MathNet dataset**: https://huggingface.co/datasets/ShadenA/MathNet
+Everything is in one repo: **https://github.com/debpalash/open-agi** (private)
+
+```bash
+# Clone on any machine
+git clone git@github.com:debpalash/open-agi.git
+cd open-agi
+
+# Start researching
+cd autoresearch-mythos
+cat AGENT.md            # read instructions
+uv sync                 # install deps
+uv run prepare.py       # one-time data prep
+# then follow the experiment loop in AGENT.md
+```
+
+### Upstream References
+- [OpenMythos](https://github.com/kyegomez/OpenMythos) — original RDT architecture
+- [Autoresearch](https://github.com/karpathy/autoresearch) — Karpathy's autonomous research framework
+- [MathNet](https://huggingface.co/datasets/ShadenA/MathNet) — olympiad math dataset

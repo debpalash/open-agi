@@ -1,0 +1,12 @@
+[project]
+name = "autoresearch-mythos"
+version = "0.1.0"
+description = "Autonomous AI research on Recurrent-Depth Transformers with MathNet on Apple Silicon"
+requires-python = ">=3.10"
+dependencies = [
+    "mlx>=0.20.0",
+    "tiktoken>=0.7.0",
+    "datasets>=3.0.0",
+    "Pillow>=10.0.0",
+    "numpy>=1.24.0",
+]

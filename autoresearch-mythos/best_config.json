@@ -1,0 +1,34 @@
+{
+  "best_val_bpb": 24.049822,
+  "best_machine": "mac",
+  "best_commit": "6233cc2",
+  "config": {
+    "MODEL_DIM": 384,
+    "N_HEADS": 6,
+    "PRELUDE_DEPTH": 2,
+    "CODA_DEPTH": 2,
+    "N_LOOPS": 8,
+    "FFN_MULT": 4,
+    "USE_MOE": true,
+    "N_EXPERTS": 4,
+    "TOP_K": 2,
+    "SHARED_EXPERTS": 1,
+    "USE_LTI": true,
+    "LORA_RANK": 16,
+    "LR": 0.0003,
+    "WEIGHT_DECAY": 0.1,
+    "WARMUP_RATIO": 0.05,
+    "WARMDOWN_RATIO": 0.3,
+    "ADAM_BETAS": [0.9, 0.95]
+  },
+  "history": [
+    {
+      "machine": "mac",
+      "val_bpb": 24.049822,
+      "params_M": 47.9,
+      "steps": 45,
+      "description": "baseline",
+      "commit": "6233cc2"
+    }
+  ]
+}

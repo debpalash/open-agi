@@ -1,6 +1,20 @@
-OpenMythos/
-autoresearch/
-autoresearch-mythos/
-*.txt
-.DS_Store
+# Python
 __pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Data / runtime
+*.bin
+run.log
+results.tsv
+
+# OS
+.DS_Store
+
+# Reference repos — large, only need key files tracked
+# The full repos can be re-cloned from upstream
+OpenMythos/.venv/
+OpenMythos/__pycache__/
+autoresearch/.venv/
+autoresearch/__pycache__/

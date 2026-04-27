@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+run.log
+results.tsv
+*.bin
+.DS_Store
