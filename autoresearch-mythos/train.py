@@ -31,7 +31,7 @@ MODEL_DIM       = 384       # model embedding dimension
 N_HEADS         = 6         # attention heads
 PRELUDE_DEPTH   = 2         # transformer layers before recurrent core
 CODA_DEPTH      = 2         # transformer layers after recurrent core
-N_LOOPS         = 4         # recurrent depth iterations
+N_LOOPS         = 2         # recurrent depth iterations
 FFN_MULT        = 4         # FFN hidden dim multiplier
 
 # MoE (set USE_MOE=False for dense FFN)
