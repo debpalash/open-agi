@@ -1,13 +1,13 @@
 {
-  "best_val_bpb": 22.944479,
+  "best_val_bpb": 21.06796,
   "best_machine": "mac",
-  "best_commit": "c0807da",
+  "best_commit": "d010348",
   "config": {
     "MODEL_DIM": 384,
     "N_HEADS": 6,
     "PRELUDE_DEPTH": 2,
     "CODA_DEPTH": 2,
-    "N_LOOPS": 8,
+    "N_LOOPS": 4,
     "FFN_MULT": 4,
     "USE_MOE": false,
     "N_EXPERTS": 4,
@@ -38,6 +38,14 @@
       "steps": 55,
       "description": "disable MoE + batch_size 16 \u2014 dense FFN faster, more steps",
       "commit": "c0807da"
+    },
+    {
+      "machine": "mac",
+      "val_bpb": 21.06796,
+      "params_M": 47.6,
+      "steps": 68,
+      "description": "N_LOOPS 8->4 \u2014 68 steps vs 55, val_bpb 22.94->21.07",
+      "commit": "d010348"
     }
   ]
 }
