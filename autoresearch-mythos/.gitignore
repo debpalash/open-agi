@@ -5,3 +5,4 @@ run.log
 results.tsv
 *.bin
 .DS_Store
+checkpoints/
