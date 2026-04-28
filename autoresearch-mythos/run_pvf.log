@@ -1,0 +1,78 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+============================================================
+DIRECTION 1+2: Process Value Function + Self-Improvement
+============================================================
+Loaded pretrained: 51 keys, 4 new (value_head), 0 skipped
+Model: 67.7M parameters
+Collected 300 verifiable problems
+
+============================================================
+ITERATION 1/3
+============================================================
+
+[Phase 1] Generating solutions...
+  50/100 problems | correct: 5 | wrong: 95 | 86s
+  100/100 problems | correct: 5 | wrong: 195 | 177s
+
+  Results: 5 correct / 200 total (2.5%)
+
+[Phase 2] Training value head + value-weighted LM...
+  step 50/200 | lm: 0.6826 | value: 0.5372
+  step 100/200 | lm: 0.6942 | value: 0.4283
+  step 150/200 | lm: 0.7242 | value: 0.3669
+  step 200/200 | lm: 0.7223 | value: 0.3051
+  Final: lm=0.7223 value=0.3051
+
+[Phase 3] Evaluating after training...
+  Accuracy: 2/50 = 4.0%
+
+[Phase 4] Value head calibration...
+  Value head accuracy: 99/100 = 99.0%
+
+============================================================
+ITERATION 2/3
+============================================================
+
+[Phase 1] Generating solutions...
+  50/100 problems | correct: 2 | wrong: 98 | 162s
+  100/100 problems | correct: 5 | wrong: 195 | 290s
+
+  Results: 5 correct / 200 total (2.5%)
+
+[Phase 2] Training value head + value-weighted LM...
+  step 50/200 | lm: 0.4668 | value: 0.1873
+  step 100/200 | lm: 0.4527 | value: 0.1482
+  step 150/200 | lm: 0.4492 | value: 0.1035
+  step 200/200 | lm: 0.4416 | value: 0.1253
+  Final: lm=0.4416 value=0.1253
+
+[Phase 3] Evaluating after training...
+  Accuracy: 2/50 = 4.0%
+
+[Phase 4] Value head calibration...
+  Value head accuracy: 97/100 = 97.0%
+
+============================================================
+ITERATION 3/3
+============================================================
+
+[Phase 1] Generating solutions...
+  50/100 problems | correct: 6 | wrong: 94 | 93s
+  100/100 problems | correct: 10 | wrong: 190 | 186s
+
+  Results: 10 correct / 200 total (5.0%)
+
+[Phase 2] Training value head + value-weighted LM...
+  step 50/200 | lm: 0.4256 | value: 0.2381
+  step 100/200 | lm: 0.4358 | value: 0.2775
+  step 150/200 | lm: 0.4273 | value: 0.3135
+  step 200/200 | lm: 0.4235 | value: 0.2591
+  Final: lm=0.4235 value=0.2591
+
+[Phase 3] Evaluating after training...
+  Accuracy: 5/50 = 10.0%
+
+[Phase 4] Value head calibration...
+  Value head accuracy: 95/100 = 95.0%
+
+Saved: /home/pal/Desktop/open-agi/autoresearch-mythos/checkpoints/pvf_model.pt (270.8 MB)
