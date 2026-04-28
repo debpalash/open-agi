@@ -1,10 +1,10 @@
 {
-  "best_val_bpb": 7.126469,
+  "best_val_bpb": 7.098779,
   "best_machine": "cuda",
-  "best_commit": "13ce8ad",
+  "best_commit": "eafc49c",
   "config": {
-    "MODEL_DIM": 384,
-    "N_HEADS": 6,
+    "MODEL_DIM": 512,
+    "N_HEADS": 8,
     "PRELUDE_DEPTH": 2,
     "CODA_DEPTH": 2,
     "N_LOOPS": 1,
@@ -86,6 +86,14 @@
       "steps": 1927,
       "description": "dim=256->384 heads=6 \u2014 val_bpb 7.40->7.13",
       "commit": "13ce8ad"
+    },
+    {
+      "machine": "cuda",
+      "val_bpb": 7.098779,
+      "params_M": 67.5,
+      "steps": 1329,
+      "description": "dim=384->512 heads=8 \u2014 val_bpb 7.13->7.10",
+      "commit": "eafc49c"
     }
   ]
 }
