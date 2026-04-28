@@ -1,0 +1,102 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+======================================================================
+BENCHMARK: Baseline RDT vs Novel TopicConditioned RDT
+======================================================================
+
+Loading Baseline (67.2M)...
+Loading Novel (67.6M)...
+
+── Perplexity (lower=better) ──
+                                   Standard   Structured
+Baseline RDT                           3.96         8.98
+Novel TopicCond RDT                    7.34         3.93
+
+── Topic Classification (Novel model) ──
+Accuracy: 49/200 = 24.5%
+(Random baseline: 12.5%)
+
+── Generation Comparison ──
+
+────────────────────────────────────────────────────────────
+Problem 1: Find all positive integers $n$ such that $n^2 + 1$ divides $n! + 1$....
+
+  Baseline (0.21s):
+    
+<|end|>
+
+  Novel (0.84s):
+    <step> Answer: $n = \lfloor \frac{n}{2} \rfloor$.
+<verify> <correct>
+<step> * $n$ is odd.
+<verify> <correct>
+<step> First, note that $n^2 + 1 \mid n^2 + 1$ implies $n^2 + 1 \mid n^2 + 1$.
+<verify> <correct>
+<step> Suppose that $n$ is even, and consider the non-negative integer $n$. Then, since $n^2 
+
+────────────────────────────────────────────────────────────
+Problem 2: Let $ABC$ be a triangle with $AB = 13$, $BC = 14$, $CA = 15$. Find the area of t...
+
+  Baseline (0.43s):
+    Let $O$ be the circumcenter of triangle $ABC$. Let $D$ be the foot of the altitude from $A$ to $BC$, $E$ the midpoint of $BC$ and $F$ the foot of the altitudes from $A$ to $BC$.
+
+![](attached_image_1.png)
+
+We have $OD = OF + OD = 4 \times 13$, and $AF = 4 \times (13 + 7)$. Also, $OD = 4 \times (13 -
+
+  Novel (0.31s):
+    <step> Let $O$ be the center of the inscribed circle of triangle $ABC$. Then $O$ lies inside $ABC$ as well as $O$ and $O'$ are the midpoints of $AC$ and $BC$. Therefore, the area of triangle $ABC$ is $\frac{3}{4}$.
+<verify> <revise>
+<answer> 3/4
+<|end|>
+
+────────────────────────────────────────────────────────────
+Problem 3: Prove that for all positive reals $a, b, c$: $\frac{a}{b+c} + \frac{b}{a+c} + \f...
+
+  Baseline (0.02s):
+    
+<|end|>
+
+  Novel (0.69s):
+    <step> Since $3$ is a quadratic in $a$ and $b$, we have $a = \frac{b}{a+c}$, $b = \frac{c}{b+a}$, $c = \frac{a}{c+b}$ and the given inequality is equivalent to
+$$
+<verify> <correct>
+<step> a^2 + b^2 + c^2 \ge a^2 + b^2 + c^2
+$$
+<verify> <correct>
+<step> or
+$$
+<verify> <correct>
+<step> \frac{a}{b+c} 
+
+────────────────────────────────────────────────────────────
+Problem 4: How many ways can you tile a $2 \times 10$ board with $1 \times 2$ dominoes?...
+
+  Baseline (0.02s):
+    
+<|end|>
+
+  Novel (0.47s):
+    <step> Each domino covers four squares of the board, and if we put the numbers in the $i$th row and $j$th column, $1 \le i \le 10$ and $2 \le j \le 10$ in the $j$th column, $2 \le j \le 10$.
+<verify> <correct>
+<step> We divide the board into $2 \times 10$ squares by $1 \times 2$ squares that contain
+
+────────────────────────────────────────────────────────────
+Problem 5: Find the remainder when $2^{100}$ is divided by $7$....
+
+  Baseline (0.02s):
+    
+<|end|>
+
+  Novel (0.03s):
+    <answer> 100
+<|end|>
+
+────────────────────────────────────────────────────────────
+── Inference Speed ──
+Baseline: 0.018s / 100 tokens
+Novel:    0.269s / 100 tokens
+Overhead: +1378.5%
+
+======================================================================
+BENCHMARK COMPLETE
+======================================================================
