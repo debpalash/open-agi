@@ -295,6 +295,23 @@ class NovelRDT(nn.Module):
 # Data loading for structured format
 # ---------------------------------------------------------------------------
 
+# Precompute topic name token patterns for fast lookup
+_TOPIC_NAME_TOKENS = {}  # first distinguishing token_id → topic_id
+
+def _init_topic_tokens(tokenizer):
+    """Build mapping from token IDs to topic IDs for fast window scanning."""
+    global _TOPIC_NAME_TOKENS
+    if _TOPIC_NAME_TOKENS:
+        return
+    # Each topic name starts with a unique token after '<topic> '
+    for name, topic_id in TOPIC_MAP.items():
+        # Encode just the topic name — find the first token
+        tokens = tokenizer.encode(name)
+        if tokens:
+            _TOPIC_NAME_TOKENS[tokens[0]] = topic_id
+    print(f"Topic token mapping: {len(_TOPIC_NAME_TOKENS)} topics registered")
+
+
 def make_structured_dataloader(tokenizer, batch_size, seq_len, split):
     """
     Dataloader for structured math data.
@@ -305,17 +322,11 @@ def make_structured_dataloader(tokenizer, batch_size, seq_len, split):
         raise FileNotFoundError(f"Structured data not found: {path}. Run prepare_structured.py first.")
     
     data = np.memmap(path, dtype=np.uint16, mode="r")
+    _init_topic_tokens(tokenizer)
     
-    # Encode special tokens to find them in the data
-    topic_tokens = {}
-    for name, topic_id in TOPIC_MAP.items():
-        encoded = tokenizer.encode(f"<topic> {name}")
-        if encoded:
-            topic_tokens[tuple(encoded[:3])] = topic_id  # first 3 tokens identify the topic
-    
-    # Encode <verify> token
-    verify_encoded = tokenizer.encode("<verify>")
-    verify_token_id = verify_encoded[0] if verify_encoded else None
+    # Token ID for '<' (starts all our special tokens)
+    lt_token = tokenizer.encode("<")[0]  # 27 in tiktoken
+    topic_token = tokenizer.encode("topic")[0]  # 26652
     
     epoch = 0
     while True:
@@ -323,17 +334,20 @@ def make_structured_dataloader(tokenizer, batch_size, seq_len, split):
         x = np.stack([data[i   : i + seq_len    ].astype(np.int32) for i in ix])
         y = np.stack([data[i+1 : i + seq_len + 1].astype(np.int32) for i in ix])
         
-        # Extract topic labels (search for <topic> token in each sequence)
-        topic_labels = np.full(batch_size, -1, dtype=np.int64)  # -1 = unknown
+        # Extract topic labels by scanning for topic name tokens
+        topic_labels = np.full(batch_size, -1, dtype=np.int64)
+        for b in range(batch_size):
+            # Scan first 100 tokens for a topic pattern: <(27) topic(26652) >(29) TopicName
+            for t in range(min(seq_len - 4, 100)):
+                if x[b, t] == lt_token and x[b, t+1] == topic_token:
+                    # Found <topic>, next meaningful token after > is the topic name
+                    name_tok = int(x[b, t+3])  # skip the '>' token
+                    if name_tok in _TOPIC_NAME_TOKENS:
+                        topic_labels[b] = _TOPIC_NAME_TOKENS[name_tok]
+                    break
         
-        # Create verify mask
-        verify_mask = np.zeros((batch_size, seq_len), dtype=np.bool_)
-        if verify_token_id is not None:
-            for b in range(batch_size):
-                # Find positions where target is after a <verify> token
-                for t in range(seq_len):
-                    if x[b, t] == verify_token_id:
-                        verify_mask[b, t] = True
+        # verify_mask not used in current training loop, skip expensive scan
+        verify_mask = None
         
         yield x, y, topic_labels, verify_mask, epoch
         epoch += 1
@@ -347,13 +361,11 @@ def evaluate_bpb_novel(model, tokenizer, batch_size, device):
     """Compute validation bits-per-byte for novel model."""
     path = os.path.join(STRUCTURED_DIR, "val.bin")
     if not os.path.exists(path):
-        # Fall back to standard data
-        from prepare import evaluate_bpb_torch, DATA_DIR
+        from prepare import evaluate_bpb_torch
         return evaluate_bpb_torch(model, tokenizer, batch_size, device)
     
     data = np.memmap(path, dtype=np.uint16, mode="r")
     
-    # Read bytes_per_token from meta
     meta_path = os.path.join(STRUCTURED_DIR, "meta.txt")
     bpt = 1.0
     if os.path.exists(meta_path):
@@ -373,16 +385,10 @@ def evaluate_bpb_novel(model, tokenizer, batch_size, device):
             x = torch.from_numpy(np.stack([data[i:i+MAX_SEQ_LEN].astype(np.int64) for i in ix])).to(device)
             y = torch.from_numpy(np.stack([data[i+1:i+MAX_SEQ_LEN+1].astype(np.int64) for i in ix])).to(device)
             
-            result = model(x, y)
-            if isinstance(result, tuple):
-                lm_loss = result[0]
-            else:
-                lm_loss = result
-            
-            # Compute sum loss manually for bpb
+            # Single forward pass
             logits = model(x)
             if isinstance(logits, tuple):
-                logits = logits[-1]  # last element is logits
+                logits = logits[-1]
             loss = F.cross_entropy(
                 logits.view(-1, logits.size(-1)), y.view(-1), reduction="sum"
             )
