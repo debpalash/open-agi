@@ -102,11 +102,10 @@ def _precompute_rope(seq_len, head_dim, device, base=10000.0):
 class DenseFFN(nn.Module):
     def __init__(self, dim, hidden):
         super().__init__()
-        self.gate = nn.Linear(dim, hidden, bias=False)
-        self.up   = nn.Linear(dim, hidden, bias=False)
-        self.down = nn.Linear(hidden, dim, bias=False)
+        self.c_fc   = nn.Linear(dim, hidden, bias=False)
+        self.c_proj = nn.Linear(hidden, dim, bias=False)
     def forward(self, x):
-        return self.down(F.silu(self.gate(x)) * self.up(x))
+        return self.c_proj(F.relu(self.c_fc(x)).square())
 
 
 class MoEFFN(nn.Module):
@@ -137,7 +136,7 @@ class TransformerBlock(nn.Module):
         self.norm1 = RMSNorm(dim)
         self.attn = Attention(dim, n_heads)
         self.norm2 = RMSNorm(dim)
-        hidden = ((int(dim * ffn_mult * 2 / 3) + 63) // 64) * 64
+        hidden = ((int(dim * ffn_mult) + 63) // 64) * 64
         if use_moe:
             eh = max(hidden // max(N_EXPERTS, 1), 32)
             self.ffn = MoEFFN(dim, N_EXPERTS, TOP_K, SHARED_EXPERTS, eh)
