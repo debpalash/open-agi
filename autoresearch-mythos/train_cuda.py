@@ -285,7 +285,7 @@ while True:
 
     for _ in range(grad_accum):
         with torch.amp.autocast(device_type="cuda", dtype=torch.bfloat16):
-            loss = model(x.to(device), y.to(device))
+            loss = model(torch.from_numpy(x).long().to(device), torch.from_numpy(y).long().to(device))
         (loss / grad_accum).backward()
         x, y, epoch = next(train_loader)
 
