@@ -1,7 +1,7 @@
 {
-  "best_val_bpb": 7.098779,
+  "best_val_bpb": 6.411077,
   "best_machine": "cuda",
-  "best_commit": "eafc49c",
+  "best_commit": "8e82e5b",
   "config": {
     "MODEL_DIM": 512,
     "N_HEADS": 8,
@@ -94,6 +94,14 @@
       "steps": 1329,
       "description": "dim=384->512 heads=8 \u2014 val_bpb 7.13->7.10",
       "commit": "eafc49c"
+    },
+    {
+      "machine": "cuda",
+      "val_bpb": 6.411077,
+      "params_M": 67.2,
+      "steps": 1373,
+      "description": "ReluSquared FFN \u2014 val_bpb 7.10->6.41, biggest CUDA gain",
+      "commit": "8e82e5b"
     }
   ]
 }
