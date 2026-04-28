@@ -26,27 +26,27 @@ from prepare import MAX_SEQ_LEN, TIME_BUDGET, Tokenizer, evaluate_bpb_torch, mak
 # ---------------------------------------------------------------------------
 
 # Architecture
-MODEL_DIM       = 512       # model embedding dimension (bigger on CUDA)
-N_HEADS         = 8         # attention heads
+MODEL_DIM       = 256       # model embedding dimension
+N_HEADS         = 4         # attention heads
 PRELUDE_DEPTH   = 2         # transformer layers before recurrent core
 CODA_DEPTH      = 2         # transformer layers after recurrent core
-N_LOOPS         = 8         # recurrent depth iterations
+N_LOOPS         = 1         # recurrent depth iterations
 FFN_MULT        = 4         # FFN hidden dim multiplier
 
 # MoE
-USE_MOE         = True
+USE_MOE         = False
 N_EXPERTS       = 4
 TOP_K           = 2
 SHARED_EXPERTS  = 1
 
 # Recurrent core
-USE_LTI         = True
-LORA_RANK       = 16
+USE_LTI         = False
+LORA_RANK       = 0
 USE_GRAD_CKPT   = True      # gradient checkpointing (saves VRAM)
 
 # Training
 BATCH_SIZE      = 16        # micro batch size
-TOTAL_BATCH     = 2**16     # ~64K tokens per optimizer step
+TOTAL_BATCH     = 16384     # ~16K tokens per optimizer step
 LR              = 3e-4
 WEIGHT_DECAY    = 0.1
 WARMUP_RATIO    = 0.05
