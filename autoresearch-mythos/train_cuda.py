@@ -26,8 +26,8 @@ from prepare import MAX_SEQ_LEN, TIME_BUDGET, Tokenizer, evaluate_bpb_torch, mak
 # ---------------------------------------------------------------------------
 
 # Architecture
-MODEL_DIM       = 256       # model embedding dimension
-N_HEADS         = 4         # attention heads
+MODEL_DIM       = 384       # model embedding dimension
+N_HEADS         = 6         # attention heads
 PRELUDE_DEPTH   = 2         # transformer layers before recurrent core
 CODA_DEPTH      = 2         # transformer layers after recurrent core
 N_LOOPS         = 1         # recurrent depth iterations
