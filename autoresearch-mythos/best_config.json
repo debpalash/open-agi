@@ -118,6 +118,14 @@
       "steps": 1302,
       "description": "LR 1e-3->3e-3 \u2014 val_bpb 6.01->5.95",
       "commit": "6572f59"
+    },
+    {
+      "machine": "cuda",
+      "val_bpb": 5.998007,
+      "params_M": 67.2,
+      "steps": 2384,
+      "description": "CUDA best: dim=512 ReluSquared LR=3e-3 \u2014 val_bpb=5.95",
+      "commit": "90dc6bd"
     }
   ]
 }
