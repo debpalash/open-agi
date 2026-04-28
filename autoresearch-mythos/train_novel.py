@@ -304,9 +304,9 @@ def _init_topic_tokens(tokenizer):
     if _TOPIC_NAME_TOKENS:
         return
     # Each topic name starts with a unique token after '<topic> '
+    # In the stream: < topic > _TopicName, so the name token has a leading space
     for name, topic_id in TOPIC_MAP.items():
-        # Encode just the topic name — find the first token
-        tokens = tokenizer.encode(name)
+        tokens = tokenizer.encode(f" {name}")  # leading space to match stream
         if tokens:
             _TOPIC_NAME_TOKENS[tokens[0]] = topic_id
     print(f"Topic token mapping: {len(_TOPIC_NAME_TOKENS)} topics registered")
