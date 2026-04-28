@@ -1,12 +1,15 @@
 [project]
 name = "autoresearch-mythos"
 version = "0.1.0"
-description = "Autonomous AI research on Recurrent-Depth Transformers with MathNet on Apple Silicon"
+description = "Autonomous AI research on Recurrent-Depth Transformers with MathNet"
 requires-python = ">=3.10"
 dependencies = [
-    "mlx>=0.20.0",
     "tiktoken>=0.7.0",
     "datasets>=3.0.0",
     "Pillow>=10.0.0",
     "numpy>=1.24.0",
 ]
+
+[project.optional-dependencies]
+mac = ["mlx>=0.20.0"]
+cuda = ["torch>=2.2.0"]

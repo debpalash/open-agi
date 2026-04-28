@@ -16,19 +16,23 @@ python -c "import mlx.core; print('MAC')" 2>/dev/null || python -c "import torch
 ## Setup (one-time)
 
 ```bash
-# 1. Check data exists
+# 1. Install dependencies (pick your platform)
+uv sync --extra mac       # Mac M2 (installs MLX)
+uv sync --extra cuda      # NVIDIA GPU (installs PyTorch)
+
+# 2. Check data exists
 ls ~/.cache/autoresearch-mythos/train.bin ~/.cache/autoresearch-mythos/val.bin
 
-# 2. If missing, prepare data
+# 3. If missing, prepare data
 uv run prepare.py
 
-# 3. Read these files for full context (the repo is small)
+# 4. Read these files for full context (the repo is small)
 #    - README.md
 #    - prepare.py (READ-ONLY — do not modify)
 #    - train.py or train_cuda.py (the file you modify)
 #    - best_config.json (shared state with the other machine)
 
-# 4. Check current best
+# 5. Check current best
 python sync.py status
 ```
 
