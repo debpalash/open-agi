@@ -1,7 +1,7 @@
 {
-  "best_val_bpb": 20.073406,
+  "best_val_bpb": 17.395268,
   "best_machine": "mac",
-  "best_commit": "822262d",
+  "best_commit": "6ca205e",
   "config": {
     "MODEL_DIM": 384,
     "N_HEADS": 6,
@@ -13,8 +13,8 @@
     "N_EXPERTS": 4,
     "TOP_K": 2,
     "SHARED_EXPERTS": 1,
-    "USE_LTI": true,
-    "LORA_RANK": 16,
+    "USE_LTI": false,
+    "LORA_RANK": 0,
     "BATCH_SIZE": 16,
     "TOTAL_BATCH": 16384,
     "LR": 0.0003,
@@ -54,6 +54,14 @@
       "steps": 73,
       "description": "N_LOOPS 4->2 \u2014 73 steps, val_bpb 21.07->20.07",
       "commit": "822262d"
+    },
+    {
+      "machine": "mac",
+      "val_bpb": 17.395268,
+      "params_M": 47.5,
+      "steps": 100,
+      "description": "disable LTI+LoRA \u2014 100 steps, val_bpb 20.07->17.40, biggest gain yet",
+      "commit": "6ca205e"
     }
   ]
 }
