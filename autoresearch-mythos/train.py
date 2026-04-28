@@ -41,8 +41,8 @@ TOP_K           = 2         # active experts per token
 SHARED_EXPERTS  = 1         # always-on shared experts
 
 # Recurrent core
-USE_LTI         = True      # LTI stability injection
-LORA_RANK       = 16        # LoRA rank for loop adaptation (0=off)
+USE_LTI         = False     # LTI stability injection
+LORA_RANK       = 0         # LoRA rank for loop adaptation (0=off)
 
 # Training
 BATCH_SIZE      = 16         # micro batch size
