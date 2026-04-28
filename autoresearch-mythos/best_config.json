@@ -1,10 +1,10 @@
 {
-  "best_val_bpb": 7.402831,
+  "best_val_bpb": 7.126469,
   "best_machine": "cuda",
-  "best_commit": "47d1f6f",
+  "best_commit": "13ce8ad",
   "config": {
-    "MODEL_DIM": 256,
-    "N_HEADS": 4,
+    "MODEL_DIM": 384,
+    "N_HEADS": 6,
     "PRELUDE_DEPTH": 2,
     "CODA_DEPTH": 2,
     "N_LOOPS": 1,
@@ -78,6 +78,14 @@
       "steps": 2328,
       "description": "CUDA baseline: dim=256 loops=1 dense \u2014 val_bpb=7.40, 2328 steps",
       "commit": "47d1f6f"
+    },
+    {
+      "machine": "cuda",
+      "val_bpb": 7.126469,
+      "params_M": 47.5,
+      "steps": 1927,
+      "description": "dim=256->384 heads=6 \u2014 val_bpb 7.40->7.13",
+      "commit": "13ce8ad"
     }
   ]
 }
