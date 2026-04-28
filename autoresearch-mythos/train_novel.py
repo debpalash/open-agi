@@ -27,7 +27,7 @@ from prepare_structured import STRUCTURED_DIR, TOPIC_MAP
 # Hyperparameters
 # ---------------------------------------------------------------------------
 
-TIME_BUDGET     = 300       # 5-minute experiment runs
+TIME_BUDGET     = 1800      # 30-minute full training run
 
 # Architecture (best from autoresearch)
 MODEL_DIM       = 512
@@ -526,3 +526,26 @@ print(f"total_tokens_M:   {step * grad_accum * tokens_per_step / 1e6:.1f}")
 print(f"num_steps:        {step}")
 print(f"num_params_M:     {n_params / 1e6:.1f}")
 print(f"novel_features:   topic_conditioned_ffn, verification_tokens")
+
+# Save checkpoint
+import json
+ckpt_dir = os.path.join(os.path.dirname(__file__), "checkpoints")
+os.makedirs(ckpt_dir, exist_ok=True)
+ckpt_path = os.path.join(ckpt_dir, "novel_rdt.pt")
+torch.save({
+    "model_state_dict": model.state_dict(),
+    "optimizer_state_dict": optimizer.state_dict(),
+    "step": step,
+    "val_bpb": val_bpb,
+    "config": {
+        "MODEL_DIM": MODEL_DIM, "N_HEADS": N_HEADS,
+        "PRELUDE_DEPTH": PRELUDE_DEPTH, "CODA_DEPTH": CODA_DEPTH,
+        "N_LOOPS": N_LOOPS, "FFN_MULT": FFN_MULT,
+        "N_TOPICS": N_TOPICS, "TOPIC_EMBED_DIM": TOPIC_EMBED_DIM,
+        "TOPIC_LOSS_WEIGHT": TOPIC_LOSS_WEIGHT,
+        "vocab_size": vocab_size,
+        "novel_features": ["topic_conditioned_ffn", "structured_steps", "verification_tokens"],
+    },
+}, ckpt_path)
+print(f"\nCheckpoint saved: {ckpt_path}")
+print(f"Model size: {os.path.getsize(ckpt_path) / 1e6:.1f} MB")
