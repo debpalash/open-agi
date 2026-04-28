@@ -19,7 +19,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
 
-from prepare import MAX_SEQ_LEN, TIME_BUDGET, Tokenizer, evaluate_bpb_torch, make_dataloader
+from prepare import MAX_SEQ_LEN, TIME_BUDGET as _TIME_BUDGET, Tokenizer, evaluate_bpb_torch, make_dataloader
+TIME_BUDGET     = 1800      # 30-minute full training run
 
 # ---------------------------------------------------------------------------
 # Hyperparameters (agent can edit all of these)
@@ -328,7 +329,7 @@ while True:
 print()
 model.eval()
 with torch.amp.autocast(device_type="cuda", dtype=torch.bfloat16):
-    val_bpb = evaluate_bpb_torch(model, tokenizer, BATCH_SIZE, device)
+    val_bpb = evaluate_bpb_torch(model, tokenizer, min(BATCH_SIZE, 8), device)
 
 t_end = time.time()
 peak_mb = torch.cuda.max_memory_allocated() / 1024 / 1024
@@ -346,3 +347,24 @@ print(f"n_loops:          {N_LOOPS}")
 print(f"coda_depth:       {CODA_DEPTH}")
 print(f"use_moe:          {USE_MOE}")
 print(f"use_lti:          {USE_LTI}")
+
+# Save trained model checkpoint
+import json
+ckpt_dir = os.path.join(os.path.dirname(__file__), "checkpoints")
+os.makedirs(ckpt_dir, exist_ok=True)
+ckpt_path = os.path.join(ckpt_dir, "rdt_best.pt")
+torch.save({
+    "model_state_dict": model.state_dict(),
+    "optimizer_state_dict": optimizer.state_dict(),
+    "step": step,
+    "val_bpb": val_bpb,
+    "config": {
+        "MODEL_DIM": MODEL_DIM, "N_HEADS": N_HEADS,
+        "PRELUDE_DEPTH": PRELUDE_DEPTH, "CODA_DEPTH": CODA_DEPTH,
+        "N_LOOPS": N_LOOPS, "FFN_MULT": FFN_MULT,
+        "USE_MOE": USE_MOE, "USE_LTI": USE_LTI, "LORA_RANK": LORA_RANK,
+        "vocab_size": tokenizer.get_vocab_size(),
+    },
+}, ckpt_path)
+print(f"\nCheckpoint saved: {ckpt_path}")
+print(f"Model size: {os.path.getsize(ckpt_path) / 1e6:.1f} MB")
