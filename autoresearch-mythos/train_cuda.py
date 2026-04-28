@@ -47,7 +47,7 @@ USE_GRAD_CKPT   = True      # gradient checkpointing (saves VRAM)
 # Training
 BATCH_SIZE      = 16        # micro batch size
 TOTAL_BATCH     = 16384     # ~16K tokens per optimizer step
-LR              = 3e-4
+LR              = 1e-3
 WEIGHT_DECAY    = 0.1
 WARMUP_RATIO    = 0.05
 WARMDOWN_RATIO  = 0.3
